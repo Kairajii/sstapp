@@ -1,6 +1,10 @@
+import { LayerVersion, Code } from "aws-cdk-lib/aws-lambda";
 import { StackContext, Api, EventBus } from "sst/constructs";
 
 export function API({ stack }: StackContext) {
+  const layerChromium = new LayerVersion(stack, "chromiumLayers", {
+    code: Code.fromAsset("layers/chromium"),
+  });
   const bus = new EventBus(stack, "bus", {
     defaults: {
       retries: 10,
@@ -15,9 +19,20 @@ export function API({ stack }: StackContext) {
     },
     routes: {
       "GET /": "packages/functions/src/lambda.handler",
-      "GET /todo": "packages/functions/src/todo.list",
-      "POST /todo": "packages/functions/src/todo.create",
-      "GET /scrape": "packages/functions/src/scrape.scrape"
+      "GET /scrape": {
+        function: {
+          handler: "packages/functions/src/scrape.scrape",
+          runtime: "nodejs18.x",
+          timeout: 60,
+          layers: [layerChromium],
+          allowPublicSubnet: true,
+          nodejs: {
+            esbuild: {
+              external: ["@sparticuz/chromium"],
+            },
+          },
+        },
+      },
     },
   });
 
