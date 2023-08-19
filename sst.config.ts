@@ -10,5 +10,7 @@ export default {
   },
   stacks(app) {
     app.stack(API);
+    app.stack(API2);
+    app.stack(API3);
   }
 } satisfies SSTConfig;
