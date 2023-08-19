@@ -2,8 +2,8 @@ import { ApiHandler } from "sst/node/api";
 import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 
-const YOUR_LOCAL_CHROMIUM_PATH =
-  "C:\\Users\\daniu\\my_repos\\sstapp\\packages\\functions\\tmp\\localChromium\\chromium\\win64-1185480\\chrome-win\\chrome.exe";
+const YOUR_LOCAL_CHROMIUM_PATH = "F:\sst\tmp\localchromium\chromium\win64-1185505\chrome-win\chrome.exe";
+  
 
 export const scrape = ApiHandler(async (_evt) => {
   let result = null;
